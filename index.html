@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Notes App Pro</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div class="container">
+
+{% if not user %}
+    <h2>👤 Enter Your Name</h2>
+    <form method="GET">
+        <input type="text" name="user" placeholder="Your name" required>
+        <button type="submit">Start</button>
+    </form>
+{% else %}
+    <h1>📝 {{ user }}'s Notes</h1>
+
+    <form method="POST">
+        <textarea name="note" placeholder="Write your note..." required></textarea>
+        <button type="submit">Save Note</button>
+    </form>
+
+    <h3>Saved Notes</h3>
+    <ul>
+        {% for note in notes %}
+        <li>
+            {{ note }}
+            <form action="/delete" method="POST" style="display:inline;">
+                <input type="hidden" name="user" value="{{ user }}">
+                <input type="hidden" name="index" value="{{ loop.index0 }}">
+                <button class="del">❌</button>
+            </form>
+        </li>
+        {% endfor %}
+    </ul>
+
+    <a href="/">🔁 Switch User</a>
+{% endif %}
+
+</div>
+</body>
+</html>
